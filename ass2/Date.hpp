@@ -7,6 +7,7 @@ class Date
     int year_;
 public:
     Date();
+    ~Date();
     Date(int, int, int);
     void SetDay(int);
     int GetDay();
@@ -14,5 +15,6 @@ public:
     int GetMonth(); 
     void SetYear(int);
     int GetYear();
+    bool operator==(const Date&) const;
 };
 #endif

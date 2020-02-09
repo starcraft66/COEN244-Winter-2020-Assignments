@@ -13,7 +13,9 @@ class ReservationRequest
     int seats_;
 public:
     ReservationRequest();
+    ~ReservationRequest();
     ReservationRequest(Person, Date, std::string, std::string, int);
+    int GetNumber();
     void SetPerson(Person);
     Person GetPerson();
     void SetDate(Date);

@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 #include "Passenger.hpp"
 
 Passenger::Passenger()
@@ -6,10 +7,15 @@ Passenger::Passenger()
 
 }
 
+Passenger::~Passenger()
+{
+    std::cout << "Passenger object deleted" << std::endl;
+}
+
 Passenger::Passenger(Person person)
 {
     this->person_ = person;
-    this->trips_ = std::array<int, 5>();
+    this->trips_ = {0};
 }
 
 Passenger::Passenger(Person person, std::array<int, 5> trips)
@@ -33,7 +39,15 @@ std::array<int, 5> Passenger::GetTrips()
     return this->trips_;
 }
 
-void Passenger::SetTrips(std::array<int, 5> trips)
+void Passenger::AddTrip(int reservation_id)
 {
-    this->trips_ = trips;
+    for (int i = 0; i < trips_.size(); i++)
+    {
+        if (this->trips_[i] == 0)
+        {
+            this->trips_[i] = reservation_id;
+            return;
+        }
+    }
+    throw "too many trips for passenger";
 }

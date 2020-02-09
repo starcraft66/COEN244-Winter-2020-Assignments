@@ -1,18 +1,33 @@
 #include <string>
+#include <iostream>
 #include "ReservationRequest.hpp"
+
+int ReservationRequest::counter_;
 
 ReservationRequest::ReservationRequest()
 {
 
 }
 
+ReservationRequest::~ReservationRequest()
+{
+    std::cout << "ReservationRequest object deleted" << std::endl;
+}
+
 ReservationRequest::ReservationRequest(Person person, Date date, std::string start, std::string dest, int seats)
 {
+    this->number_ = this->counter_;
+    this->counter_++;
     this->person_ = person;
     this->date_ = date;
     this->start_ = start;
     this->dest_ = dest;
     this->seats_ = seats;
+}
+
+int ReservationRequest::GetNumber()
+{
+    return this->number_;
 }
 
 void ReservationRequest::SetPerson(Person person)

@@ -1,9 +1,15 @@
 #include <string>
+#include <iostream>
 #include "Person.hpp"
 
 Person::Person()
 {
 
+}
+
+Person::~Person()
+{
+    std::cout << "Person object deleted" << std::endl;
 }
 
 Person::Person(std::string name, Date dob)
@@ -30,4 +36,9 @@ Date Person::GetDateOfBirth()
 void Person::SetDateOfBirth(Date dob)
 {
     this->dob_ = dob;
+}
+
+bool Person::operator==(const Person& person) const
+{
+   return person.name_ == this->name_ && person.dob_ == this->dob_;
 }

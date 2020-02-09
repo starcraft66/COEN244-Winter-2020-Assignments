@@ -8,11 +8,12 @@ class Passenger
     std::array<int, 5> trips_;
 public:
     Passenger();
+    ~Passenger();
     Passenger(Person);
     Passenger(Person, std::array<int, 5>);
     void SetPerson(Person);
     Person GetPerson();
-    void SetTrips(std::array<int, 5>);
+    void AddTrip(int);
     std::array<int, 5> GetTrips();
 };
 #endif
