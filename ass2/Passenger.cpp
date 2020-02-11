@@ -12,24 +12,24 @@ Passenger::~Passenger()
     std::cout << "Passenger object deleted" << std::endl;
 }
 
-Passenger::Passenger(Person person)
+Passenger::Passenger(Person* person)
 {
     this->person_ = person;
     this->trips_ = {0};
 }
 
-Passenger::Passenger(Person person, std::array<int, 5> trips)
+Passenger::Passenger(Person* person, std::array<int, 5> trips)
 {
     this->person_ = person;
     this->trips_ = trips;
 }
 
-Person Passenger::GetPerson()
+Person* Passenger::GetPerson()
 {
     return this->person_;
 }
 
-void Passenger::SetPerson(Person person)
+void Passenger::SetPerson(Person* person)
 {
     this->person_ = person;
 }
@@ -56,7 +56,7 @@ void Passenger::AddTrip(int reservation_id)
 
 void Passenger::Print()
 {
-    std::cout << "Passenger: Person: Name: " << this->GetPerson().GetName() << " Trips: ";
+    std::cout << "Passenger: Person: Name: " << this->GetPerson()->GetName() << " Trips: ";
     for (int trip : this->GetTrips())
     {
         std::cout << trip << ", ";

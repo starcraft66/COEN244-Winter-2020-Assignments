@@ -143,16 +143,24 @@ void ReservationManager::PrintReservationRequestDetails(ReservationRequest& rese
     std::cout << "Reservation request date: " << reservation_request.GetDate().GetDay() << "/" << reservation_request.GetDate().GetMonth() << "/" << reservation_request.GetDate().GetYear() << std::endl;
     std::cout << "Reservation request start: " << reservation_request.GetStart() << std::endl;
     std::cout << "Reservation request end: " << reservation_request.GetDest() << std::endl;
-    std::cout << "Reservation request person: " << reservation_request.GetPerson().GetName() << ", born on " << reservation_request.GetPerson().GetDateOfBirth().GetDay() << "/" << reservation_request.GetPerson().GetDateOfBirth().GetMonth() << "/" << reservation_request.GetPerson().GetDateOfBirth().GetYear() << std::endl;
+    std::cout << "Reservation request person: " << reservation_request.GetPerson()->GetName() << ", born on " << reservation_request.GetPerson()->GetDateOfBirth().GetDay() << "/" << reservation_request.GetPerson()->GetDateOfBirth().GetMonth() << "/" << reservation_request.GetPerson()->GetDateOfBirth().GetYear() << std::endl;
     std::cout << "Reservation request number of seats requested: " << reservation_request.GetSeats() << std::endl;
 }
 
 void ReservationManager::DeleteAllReservationRequestsOnDate(Date date)
 {
-    for (ReservationRequest* req : this->reservation_requests_)
+    for (ReservationRequest*& req : this->reservation_requests_)
     {
         if (req != nullptr && req->GetDate() == date)
         {
+            for (Passenger*& pass : this->passengers_)
+            {
+                if (pass != nullptr && *pass->GetPerson() == *req->GetPerson())
+                {
+                    delete pass;
+                    pass = nullptr;
+                }
+            }
             delete req;
             req = nullptr;
         }
@@ -161,10 +169,18 @@ void ReservationManager::DeleteAllReservationRequestsOnDate(Date date)
 
 void ReservationManager::CancelReservationRequestByNumber(int id)
 {
-    for (ReservationRequest* req : this->reservation_requests_)
+    for (ReservationRequest*& req : this->reservation_requests_)
     {
         if (req != nullptr && req->GetNumber() == id)
         {
+            for (Passenger*& pass : this->passengers_)
+            {
+                if (pass != nullptr && *pass->GetPerson() == *req->GetPerson())
+                {
+                    delete pass;
+                    pass = nullptr;
+                }
+            }
             std::cout << "deleting reservation request number " << req->GetNumber() << std::endl;
             delete req;
             req = nullptr;
@@ -174,20 +190,27 @@ void ReservationManager::CancelReservationRequestByNumber(int id)
 
 void ReservationManager::DeleteAllReservationRequestsFromPassengerOnDate(Passenger& passenger, Date date)
 {
-    for (ReservationRequest* req : this->reservation_requests_)
+    for (ReservationRequest*& req : this->reservation_requests_)
     {
         if (req != nullptr)
         {
-            std::cout << req->GetPerson().GetName() << std::endl;
+            std::cout << req->GetPerson()->GetName() << std::endl;
         }
-        if (req != nullptr && req->GetDate() == date && req->GetPerson() == passenger.GetPerson())
+        if (req != nullptr && req->GetDate() == date && *req->GetPerson() == *passenger.GetPerson())
         {
+            for (Passenger*& pass : this->passengers_)
+            {
+                if (pass != nullptr && *pass->GetPerson() == *passenger.GetPerson())
+                {
+                    delete pass;
+                    pass = nullptr;
+                }
+            }
             std::cout << "deleting reservation request number " << req->GetNumber() << std::endl;
             delete req;
             req = nullptr;
         }
     }
-    delete &passenger;
 }
 
 int ReservationManager::DestinationNameToID(std::string dest) const
@@ -236,11 +259,11 @@ int main(int argc, char *argv[])
     Person* p3 = new Person("mom2", Date(1,3,1970));
     Person* p4 = new Person("mom3", Date(1,4,1970));
     Person* p5 = new Person("mom4", Date(1,5,1970));
-    ReservationRequest* r1 = new ReservationRequest(*p1, Date(2,2,2020), "Montreal", "Toronto", 2);
-    ReservationRequest* r2 = new ReservationRequest(*p2, Date(2,2,2020), "Brockville", "Kingston", 1);
-    ReservationRequest* r3 = new ReservationRequest(*p3, Date(2,2,2020), "Belleville", "Toronto", 2);
-    ReservationRequest* r4 = new ReservationRequest(*p4, Date(2,2,2020), "Dorval", "Kingston", 4);
-    ReservationRequest* r5 = new ReservationRequest(*p5, Date(2,2,2020), "Montreal", "Dorval", 3);
+    ReservationRequest* r1 = new ReservationRequest(p1, Date(2,2,2020), "Montreal", "Toronto", 2);
+    ReservationRequest* r2 = new ReservationRequest(p2, Date(2,2,2020), "Brockville", "Kingston", 1);
+    ReservationRequest* r3 = new ReservationRequest(p3, Date(2,2,2020), "Belleville", "Toronto", 2);
+    ReservationRequest* r4 = new ReservationRequest(p4, Date(2,2,2020), "Dorval", "Kingston", 4);
+    ReservationRequest* r5 = new ReservationRequest(p5, Date(2,2,2020), "Montreal", "Dorval", 3);
     ReservationManager* rm = new ReservationManager();
     rm->ProcessReservationRequest(*r1);
     rm->ProcessReservationRequest(*r2);
@@ -248,17 +271,18 @@ int main(int argc, char *argv[])
     rm->ProcessReservationRequest(*r4);
     rm->ProcessReservationRequest(*r5);
     rm->PrintReservationRequestDetails(*r5);
-    rm->DeleteAllReservationRequestsFromPassengerOnDate(*(new Passenger(*p1)), Date(2,2,2020));
-    Person* p6 = new Person("mom5", Date(1,5,1970));
+	Passenger cringe{p1};
+	rm->DeleteAllReservationRequestsFromPassengerOnDate(cringe, Date(2, 2, 2020));
+	Person* p6 = new Person("mom5", Date(1,5,1970));
     Person* p7 = new Person("mom6", Date(1,6,1970));
     Person* p8 = new Person("mom7", Date(1,7,1970));
     Person* p9 = new Person("mom8", Date(1,8,1970));
     Person* p10 = new Person("mom9", Date(1,9,1970));
-    ReservationRequest* r6 = new ReservationRequest(*p6, Date(2,2,2020), "Montreal", "Toronto", 2);
-    ReservationRequest* r7 = new ReservationRequest(*p7, Date(2,2,2020), "Brockville", "Kingston", 1);
-    ReservationRequest* r8 = new ReservationRequest(*p8, Date(2,2,2020), "Belleville", "Toronto", 2);
-    ReservationRequest* r9 = new ReservationRequest(*p9, Date(2,2,2020), "Dorval", "Kingston", 4);
-    ReservationRequest* r10 = new ReservationRequest(*p10, Date(2,2,2020), "Montreal", "Dorval", 3);
+    ReservationRequest* r6 = new ReservationRequest(p6, Date(2,2,2020), "Montreal", "Toronto", 2);
+    ReservationRequest* r7 = new ReservationRequest(p7, Date(2,2,2020), "Brockville", "Kingston", 1);
+    ReservationRequest* r8 = new ReservationRequest(p8, Date(2,2,2020), "Belleville", "Toronto", 2);
+    ReservationRequest* r9 = new ReservationRequest(p9, Date(2,2,2020), "Dorval", "Kingston", 4);
+    ReservationRequest* r10 = new ReservationRequest(p10, Date(2,2,2020), "Montreal", "Dorval", 3);
     rm->ProcessReservationRequest(*r6);
     rm->ProcessReservationRequest(*r7);
     rm->ProcessReservationRequest(*r8);

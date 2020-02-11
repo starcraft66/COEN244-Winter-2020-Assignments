@@ -4,7 +4,7 @@
 #include "Person.hpp"
 class ReservationRequest
 {
-    Person person_;
+    Person* person_;
     static int counter_;
     int number_;
     Date date_;
@@ -14,10 +14,10 @@ class ReservationRequest
 public:
     ReservationRequest();
     ~ReservationRequest();
-    ReservationRequest(Person&, Date, std::string, std::string, int);
+    ReservationRequest(Person*, const Date&, const std::string&, const std::string&, int);
     int GetNumber();
-    void SetPerson(Person);
-    Person GetPerson();
+    void SetPerson(Person&);
+    Person* GetPerson();
     void SetDate(Date);
     Date GetDate();
     void SetStart(std::string);
