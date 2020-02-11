@@ -49,5 +49,16 @@ void Passenger::AddTrip(int reservation_id)
             return;
         }
     }
-    throw "too many trips for passenger";
+    std::cout << "too many trips for passenger";
+    exit(1);
+    //throw "too many trips for passenger";
+}
+
+void Passenger::Print()
+{
+    std::cout << "Passenger: Person: Name: " << this->GetPerson().GetName() << " Trips: ";
+    for (int trip : this->GetTrips())
+    {
+        std::cout << trip << ", ";
+    }
 }

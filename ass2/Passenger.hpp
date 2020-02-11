@@ -15,5 +15,6 @@ public:
     Person GetPerson();
     void AddTrip(int);
     std::array<int, 5> GetTrips();
+    void Print();
 };
 #endif

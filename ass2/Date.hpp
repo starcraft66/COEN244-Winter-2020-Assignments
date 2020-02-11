@@ -16,5 +16,6 @@ public:
     void SetYear(int);
     int GetYear();
     bool operator==(const Date&) const;
+    void Print() const;
 };
 #endif

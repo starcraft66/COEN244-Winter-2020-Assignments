@@ -14,7 +14,7 @@ ReservationRequest::~ReservationRequest()
     std::cout << "ReservationRequest object deleted" << std::endl;
 }
 
-ReservationRequest::ReservationRequest(Person person, Date date, std::string start, std::string dest, int seats)
+ReservationRequest::ReservationRequest(Person& person, Date date, std::string start, std::string dest, int seats)
 {
     this->number_ = this->counter_;
     this->counter_++;
@@ -78,4 +78,12 @@ void ReservationRequest::SetSeats(int seats)
 int ReservationRequest::GetSeats()
 {
     return this->seats_;
+}
+
+void ReservationRequest::Print()
+{
+    std::cout << "ReservationRequest: Number: " << this->GetNumber() << " Person: Name: " <<
+    this->GetPerson().GetName() << "Date: Day: " << this->GetDate().GetDay() << " Month: " <<
+    this->GetDate().GetMonth() << " Year: " << this->GetDate().GetYear() << " Start: " <<
+    this->GetStart() << " Destination: " << this->GetDest() << " Seats: " << this->GetSeats() << std::endl;
 }

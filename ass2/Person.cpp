@@ -9,7 +9,7 @@ Person::Person()
 
 Person::~Person()
 {
-    std::cout << "Person object deleted" << std::endl;
+    std::cout << "Person " << this->name_ << " deleted" << std::endl;
 }
 
 Person::Person(std::string name, Date dob)
@@ -41,4 +41,9 @@ void Person::SetDateOfBirth(Date dob)
 bool Person::operator==(const Person& person) const
 {
    return person.name_ == this->name_ && person.dob_ == this->dob_;
+}
+
+void Person::Print()
+{
+    std::cout << "Person: " << this->GetName() << ", born on " << this->GetDateOfBirth().GetDay() << "/" << this->GetDateOfBirth().GetMonth() << "/" << this->GetDateOfBirth().GetYear() << std::endl;
 }

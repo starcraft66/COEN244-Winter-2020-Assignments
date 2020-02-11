@@ -15,5 +15,6 @@ public:
     void SetDateOfBirth(Date);
     Date GetDateOfBirth();
     bool operator==(const Person&) const;
+    void Print();
 };
 #endif

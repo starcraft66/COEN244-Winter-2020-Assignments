@@ -1,4 +1,5 @@
 CXX=clang++
+CXXFLAGS = -Og -g
 
 all: problem1
 

@@ -21,11 +21,11 @@ public:
     int GetCapacity();
     void SetStations(int);
     int GetStations();
-    void ProcessReservationRequest(ReservationRequest);
-    void PrintReservationRequestDetails(ReservationRequest);
+    void ProcessReservationRequest(ReservationRequest&);
+    void PrintReservationRequestDetails(ReservationRequest&);
     void DeleteAllReservationRequestsOnDate(Date);
     void CancelReservationRequestByNumber(int);
-    void DeleteAllReservationRequestsFromPassengerOnDate(Passenger, Date);
+    void DeleteAllReservationRequestsFromPassengerOnDate(Passenger&, Date);
     int DestinationNameToID(std::string) const;
 };
 #endif

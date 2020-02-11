@@ -52,3 +52,8 @@ bool Date::operator==(const Date& date) const
 {
    return date.day_ == this->day_ && date.month_ == this->month_ && date.year_ == this->year_;
 }
+
+void Date::Print() const
+{
+    std::cout << "Date: Day: " << this->day_ << " Month: " << this->month_ << " Year: " << this->year_ << std::endl;
+}
