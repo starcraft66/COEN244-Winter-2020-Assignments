@@ -8,8 +8,8 @@ All code was developed and tested using `clang` 7.0.1-8 on debian buster.
 ### Assignments
 ---
 1. "Assignment 1"
-2. TBD
-3. TBD
+2. "Assignment 2"
+3. "Assignment 3"
 4. TBD
 5. TBD
 ---
